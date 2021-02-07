@@ -1,20 +1,12 @@
 package com.nepxion.eventbus.core;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import com.google.common.eventbus.EventBus;
 
 import java.util.Collection;
 
-import com.google.common.eventbus.EventBus;
-
 public class EventControllerImpl implements EventController {
-    private EventBus eventBus;
+
+    private final EventBus eventBus;
 
     public EventControllerImpl(EventBus eventBus) {
         this.eventBus = eventBus;
@@ -36,7 +28,7 @@ public class EventControllerImpl implements EventController {
     }
 
     @Override
-    public void post(Collection<? extends Object> events) {
+    public void post(Collection<?> events) {
         for (Object event : events) {
             eventBus.post(event);
         }
@@ -44,11 +36,11 @@ public class EventControllerImpl implements EventController {
 
     @Override
     public void postEvent(Event event) {
-        post(event);
+        this.post(event);
     }
 
     @Override
     public void postEvent(Collection<? extends Event> events) {
-        post(events);
+        this.post(events);
     }
 }

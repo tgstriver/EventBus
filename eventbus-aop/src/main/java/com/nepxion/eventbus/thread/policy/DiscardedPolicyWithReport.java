@@ -1,26 +1,20 @@
 package com.nepxion.eventbus.thread.policy;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-// 任务饱和时以FIFO的方式抛弃队列中一部分现有任务，再添加新任务
+/**
+ * 任务饱和时以FIFO的方式抛弃队列中一部分现有任务，再添加新任务
+ */
 public class DiscardedPolicyWithReport implements RejectedExecutionHandler {
+
     private static final Logger LOG = LoggerFactory.getLogger(DiscardedPolicyWithReport.class);
 
-    private String threadName;
+    private final String threadName;
 
     public DiscardedPolicyWithReport() {
         this(null);

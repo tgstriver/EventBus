@@ -1,27 +1,18 @@
 package com.nepxion.eventbus.thread.entity;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.io.Serializable;
-
+import com.nepxion.eventbus.thread.constant.ThreadConstant;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import com.nepxion.eventbus.thread.constant.ThreadConstant;
+import java.io.Serializable;
 
 public class ThreadParameter implements Serializable {
+
     private static final long serialVersionUID = 6869706244434951605L;
 
-    private int threadPoolCorePoolSize = ThreadConstant.CPUS * 1;
+    private int threadPoolCorePoolSize = ThreadConstant.CPUS;
     private int threadPoolMaximumPoolSize = ThreadConstant.CPUS * 2;
     private long threadPoolKeepAliveTime = 900000;
     private boolean threadPoolAllowCoreThreadTimeout = false;

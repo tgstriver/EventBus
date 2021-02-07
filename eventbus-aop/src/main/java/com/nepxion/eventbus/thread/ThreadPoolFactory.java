@@ -1,13 +1,20 @@
 package com.nepxion.eventbus.thread;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import com.nepxion.eventbus.thread.constant.ThreadConstant;
+import com.nepxion.eventbus.thread.entity.ThreadCustomization;
+import com.nepxion.eventbus.thread.entity.ThreadParameter;
+import com.nepxion.eventbus.thread.entity.ThreadQueueType;
+import com.nepxion.eventbus.thread.entity.ThreadRejectedPolicyType;
+import com.nepxion.eventbus.thread.policy.AbortPolicyWithReport;
+import com.nepxion.eventbus.thread.policy.BlockingPolicyWithReport;
+import com.nepxion.eventbus.thread.policy.CallerRunsPolicyWithReport;
+import com.nepxion.eventbus.thread.policy.DiscardedPolicyWithReport;
+import com.nepxion.eventbus.thread.policy.RejectedPolicyWithReport;
+import com.nepxion.eventbus.thread.util.NetUtil;
+import com.nepxion.eventbus.thread.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -21,28 +28,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.nepxion.eventbus.thread.constant.ThreadConstant;
-import com.nepxion.eventbus.thread.entity.ThreadCustomization;
-import com.nepxion.eventbus.thread.entity.ThreadParameter;
-import com.nepxion.eventbus.thread.entity.ThreadQueueType;
-import com.nepxion.eventbus.thread.entity.ThreadRejectedPolicyType;
-import com.nepxion.eventbus.thread.policy.AbortPolicyWithReport;
-import com.nepxion.eventbus.thread.policy.BlockingPolicyWithReport;
-import com.nepxion.eventbus.thread.policy.CallerRunsPolicyWithReport;
-import com.nepxion.eventbus.thread.policy.DiscardedPolicyWithReport;
-import com.nepxion.eventbus.thread.policy.RejectedPolicyWithReport;
-import com.nepxion.eventbus.thread.util.NetUtil;
-import com.nepxion.eventbus.thread.util.StringUtil;
-
 public class ThreadPoolFactory {
+
     private static final Logger LOG = LoggerFactory.getLogger(ThreadPoolFactory.class);
 
-    private volatile Map<String, ThreadPoolExecutor> threadPoolExecutorMap = new ConcurrentHashMap<String, ThreadPoolExecutor>();
-    private ThreadPoolExecutor threadPoolExecutor;
+    private volatile Map<String, ThreadPoolExecutor> threadPoolExecutorMap = new ConcurrentHashMap<>();
+    private volatile ThreadPoolExecutor threadPoolExecutor;
 
     private ThreadCustomization threadCustomization;
     private ThreadParameter threadParameter;
@@ -52,14 +43,20 @@ public class ThreadPoolFactory {
         this.threadParameter = threadParameter;
     }
 
+    /**
+     * 根据线程池名称获取线程池执行器
+     *
+     * @param threadPoolName 线程池名称
+     * @return
+     */
     public ThreadPoolExecutor getThreadPoolExecutor(String threadPoolName) {
-        boolean threadPoolMultiMode = threadCustomization.isThreadPoolMultiMode();
-        String poolName = createThreadPoolName(threadPoolName);
+        boolean threadPoolMultiMode = threadCustomization.isThreadPoolMultiMode(); // 多个线程池是否进行线程隔离
+        String poolName = this.createThreadPoolName(threadPoolName);
 
         if (threadPoolMultiMode) {
             ThreadPoolExecutor threadPoolExecutor = threadPoolExecutorMap.get(poolName);
             if (threadPoolExecutor == null) {
-                ThreadPoolExecutor newThreadPoolExecutor = createThreadPoolExecutor(poolName);
+                ThreadPoolExecutor newThreadPoolExecutor = this.createThreadPoolExecutor(poolName);
                 threadPoolExecutor = threadPoolExecutorMap.putIfAbsent(poolName, newThreadPoolExecutor);
                 if (threadPoolExecutor == null) {
                     threadPoolExecutor = newThreadPoolExecutor;
@@ -68,7 +65,7 @@ public class ThreadPoolFactory {
 
             return threadPoolExecutor;
         } else {
-            return createSharedThreadPoolExecutor();
+            return this.createSharedThreadPoolExecutor();
         }
     }
 
@@ -78,11 +75,11 @@ public class ThreadPoolFactory {
             threadPoolSharedName = ThreadConstant.DEFAULT_THREADPOOL_SHARED_NAME;
         }
 
-        String poolName = createThreadPoolName(threadPoolSharedName);
+        String poolName = this.createThreadPoolName(threadPoolSharedName);
         if (threadPoolExecutor == null) {
-            synchronized (ThreadPoolFactory.class) {
+            synchronized (this) {
                 if (threadPoolExecutor == null) {
-                    threadPoolExecutor = createThreadPoolExecutor(poolName);
+                    threadPoolExecutor = this.createThreadPoolExecutor(poolName);
                 }
             }
         }
@@ -90,15 +87,19 @@ public class ThreadPoolFactory {
         return threadPoolExecutor;
     }
 
+    /**
+     * 创建线程池名称
+     *
+     * @param threadPoolName
+     * @return
+     */
     private String createThreadPoolName(String threadPoolName) {
-        boolean threadPoolNameIPShown = threadCustomization.isThreadPoolNameIPShown();
-
+        boolean threadPoolNameIPShown = threadCustomization.isThreadPoolNameIPShown(); // 线程池名称中是否显示ip
         return threadPoolNameIPShown ? StringUtil.firstLetterToUpper(threadPoolName) + "-" + NetUtil.getLocalHost() + "-thread" : StringUtil.firstLetterToUpper(threadPoolName) + "-thread";
     }
 
     private ThreadPoolExecutor createThreadPoolExecutor(String threadPoolName) {
         boolean threadPoolNameCustomized = threadCustomization.isThreadPoolNameCustomized();
-
         return threadPoolNameCustomized ? createThreadPoolExecutor(threadPoolName, threadParameter) : createThreadPoolExecutor(threadParameter);
     }
 
@@ -119,7 +120,7 @@ public class ThreadPoolFactory {
                 TimeUnit.MILLISECONDS,
                 createBlockingQueue(queue, queueCapacity),
                 new ThreadFactory() {
-                    private AtomicInteger number = new AtomicInteger(0);
+                    private final AtomicInteger number = new AtomicInteger(0);
 
                     @Override
                     public Thread newThread(Runnable runnable) {
@@ -159,11 +160,13 @@ public class ThreadPoolFactory {
 
         switch (queueType) {
             case LINKED_BLOCKING_QUEUE:
-                return new LinkedBlockingQueue<Runnable>(queueCapacity);
+                return new LinkedBlockingQueue<>(queueCapacity);
             case ARRAY_BLOCKING_QUEUE:
-                return new ArrayBlockingQueue<Runnable>(queueCapacity);
+                return new ArrayBlockingQueue<>(queueCapacity);
             case SYNCHRONOUS_QUEUE:
-                return new SynchronousQueue<Runnable>();
+                return new SynchronousQueue<>();
+            default:
+                break;
         }
 
         return null;
@@ -183,6 +186,8 @@ public class ThreadPoolFactory {
                 return new RejectedPolicyWithReport();
             case DISCARDED_POLICY_WITH_REPORT:
                 return new DiscardedPolicyWithReport();
+            default:
+                break;
         }
 
         return null;
@@ -191,7 +196,6 @@ public class ThreadPoolFactory {
     public void shutdown() {
         if (threadPoolExecutor != null && !threadPoolExecutor.isShutdown()) {
             LOG.info("Shutting down thread pool executor [{}]...", threadPoolExecutor);
-
             threadPoolExecutor.shutdown();
         }
 
@@ -200,7 +204,6 @@ public class ThreadPoolFactory {
 
             if (executor != null && !executor.isShutdown()) {
                 LOG.info("Shutting down thread pool executor [{}] ...", threadPoolExecutor);
-
                 executor.shutdown();
             }
         }

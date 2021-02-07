@@ -1,25 +1,19 @@
 package com.nepxion.eventbus.thread.policy;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-// 使用阻塞生产者的饱和策略，不抛弃任务，也不抛出异常，当队列满时改为调用BlockingQueue.put来实现生产者的阻塞
+/**
+ * 使用阻塞生产者的饱和策略，不抛弃任务，也不抛出异常，当队列满时改为调用BlockingQueue.put来实现生产者的阻塞
+ */
 public class BlockingPolicyWithReport implements RejectedExecutionHandler {
+
     private static final Logger LOG = LoggerFactory.getLogger(BlockingPolicyWithReport.class);
 
-    private String threadName;
+    private final String threadName;
 
     public BlockingPolicyWithReport() {
         this(null);
@@ -30,7 +24,7 @@ public class BlockingPolicyWithReport implements RejectedExecutionHandler {
     }
 
     // 队列用法：
-    // 1.add      增加一个元素，如果队列已满，则抛出一个IIIegaISlabEepeplian异常
+    // 1.add      增加一个元素，如果队列已满，则抛出一个IllegalStateException异常
     // 2.remove   移除并返回队列头部的元素，如果队列为空，则抛出一个NoSuchElementException异常
     // 3.element  返回队列头部的元素，如果队列为空，则抛出一个NoSuchElementException异常
     // 4.offer    添加一个元素并返回true，如果队列已满，则返回false

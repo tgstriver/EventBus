@@ -1,28 +1,38 @@
 package com.nepxion.eventbus.thread.constant;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+public interface ThreadConstant {
 
-public class ThreadConstant {
-    public static final int CPUS = Math.max(2, Runtime.getRuntime().availableProcessors());
+    int CPUS = Math.max(2, Runtime.getRuntime().availableProcessors());
 
-    public static final String THREAD_POOL_MULTI_MODE = "threadpool.multi.mode";
-    public static final String THREAD_POOL_SHARED_NAME = "threadpool.shared.name";
-    public static final String THREAD_POOL_NAME_CUSTOMIZED = "threadpool.name.customized";
-    public static final String THREAD_POOL_NAME_IP_SHOWN = "threadpool.name.ipshown";
-    public static final String THREAD_POOL_CORE_POOL_SIZE = "threadpool.core.pool.size";
-    public static final String THREAD_POOL_MAXIMUM_POOL_SIZE = "threadpool.maximum.pool.size";
-    public static final String THREAD_POOL_KEEP_ALIVE_TIME = "threadpool.keep.alive.time";
-    public static final String THREAD_POOL_ALLOW_CORE_THREAD_TIMEOUT = "threadpool.allow.core.thread.timeout";
-    public static final String THREAD_POOL_QUEUE = "threadpool.queue";
-    public static final String THREAD_POOL_QUEUE_CAPACITY = "threadpool.queue.capacity";
-    public static final String THREAD_POOL_REJECTED_POLICY = "threadpool.rejected.policy";
+    /**
+     * 多个线程池是否进行线程隔离。如果是，那么每个不同identifier的事件都会占用一个单独的线程池，否则共享一个线程池
+     */
+    String THREAD_POOL_MULTI_MODE = "threadpool.multi.mode";
 
-    public static final String DEFAULT_THREADPOOL_SHARED_NAME = "SharedThreadPool";
+    /**
+     * 共享线程池的名称
+     */
+    String THREAD_POOL_SHARED_NAME = "threadpool.shared.name";
+
+    /**
+     * 是否显示自定义的线程池名
+     */
+    String THREAD_POOL_NAME_CUSTOMIZED = "threadpool.name.customized";
+
+    /**
+     * 线程池名称中是否显示ip
+     */
+    String THREAD_POOL_NAME_IP_SHOWN = "threadpool.name.ipshown";
+    String THREAD_POOL_CORE_POOL_SIZE = "threadpool.core.pool.size";
+    String THREAD_POOL_MAXIMUM_POOL_SIZE = "threadpool.maximum.pool.size";
+    String THREAD_POOL_KEEP_ALIVE_TIME = "threadpool.keep.alive.time";
+    String THREAD_POOL_ALLOW_CORE_THREAD_TIMEOUT = "threadpool.allow.core.thread.timeout";
+    String THREAD_POOL_QUEUE = "threadpool.queue";
+    String THREAD_POOL_QUEUE_CAPACITY = "threadpool.queue.capacity";
+    String THREAD_POOL_REJECTED_POLICY = "threadpool.rejected.policy";
+
+    /**
+     * 共享线程池的默认名称
+     */
+    String DEFAULT_THREADPOOL_SHARED_NAME = "SharedThreadPool";
 }

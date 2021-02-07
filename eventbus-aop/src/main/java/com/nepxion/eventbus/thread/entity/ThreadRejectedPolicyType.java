@@ -1,24 +1,19 @@
 package com.nepxion.eventbus.thread.entity;
 
 /**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
+ * 线程池拒绝策略
  */
-
 public enum ThreadRejectedPolicyType {
+
     BLOCKING_POLICY_WITH_REPORT("BlockingPolicyWithReport"),
     CALLER_RUNS_POLICY_WITH_REPORT("CallerRunsPolicyWithReport"),
     ABORT_POLICY_WITH_REPORT("AbortPolicyWithReport"),
     REJECTED_POLICY_WITH_REPORT("RejectedPolicyWithReport"),
     DISCARDED_POLICY_WITH_REPORT("DiscardedPolicyWithReport");
 
-    private String value;
+    private final String value;
 
-    private ThreadRejectedPolicyType(String value) {
+    ThreadRejectedPolicyType(String value) {
         this.value = value;
     }
 

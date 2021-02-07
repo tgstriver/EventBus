@@ -1,24 +1,30 @@
 package com.nepxion.eventbus.thread.util;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+public final class StringUtil {
 
-public class StringUtil {
-    public static String firstLetterToUpper(String value) {
-        Character character = Character.toUpperCase(value.charAt(0));
+    private StringUtil() {
 
-        return character.toString().concat(value.substring(1));
     }
 
-    public static String firstLetterToLower(String value) {
-        Character character = Character.toLowerCase(value.charAt(0));
+    /**
+     * 将字符串第一个字母转换为大写
+     *
+     * @param value
+     * @return
+     */
+    public static String firstLetterToUpper(String value) {
+        char character = Character.toUpperCase(value.charAt(0));
+        return Character.toString(character).concat(value.substring(1));
+    }
 
-        return character.toString().concat(value.substring(1));
+    /**
+     * 将字符串第一个字母转换为小写
+     *
+     * @param value
+     * @return
+     */
+    public static String firstLetterToLower(String value) {
+        char character = Character.toLowerCase(value.charAt(0));
+        return Character.toString(character).concat(value.substring(1));
     }
 }

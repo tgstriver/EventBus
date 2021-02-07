@@ -1,14 +1,5 @@
 package com.nepxion.eventbus.example.service;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +10,7 @@ import com.nepxion.eventbus.core.EventControllerFactory;
 
 @Service
 public class MyPublisher {
+
     private static final Logger LOG = LoggerFactory.getLogger(MyPublisher.class);
 
     @Autowired(required = false)

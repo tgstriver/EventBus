@@ -2,11 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <artifactId>eventbus-spring-boot-example</artifactId>
-    <name>Nepxion EventBus Spring Boot Example</name>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
-    <description>Nepxion EventBus is a generic event dispatching component based on Google Guava with Nepxion Matrix AOP framework</description>
-    <url>http://www.nepxion.com</url>
 
     <parent>
         <groupId>com.nepxion</groupId>
@@ -15,8 +12,6 @@
     </parent>
 
     <properties>
-        <!-- <spring.version>4.3.21.RELEASE</spring.version>
-        <spring.boot.version>1.5.18.RELEASE</spring.boot.version> -->
         <spring.version>5.0.11.RELEASE</spring.version>
         <spring.boot.version>2.0.7.RELEASE</spring.boot.version>
     </properties>

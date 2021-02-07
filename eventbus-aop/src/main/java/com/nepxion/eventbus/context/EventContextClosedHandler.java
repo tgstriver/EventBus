@@ -1,14 +1,5 @@
 package com.nepxion.eventbus.context;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -28,6 +19,7 @@ The web application [ROOT] appears to have started a thread named [EventBus-192.
     java.lang.Thread.run(Thread.java:745)
 */
 public class EventContextClosedHandler implements ApplicationListener<ContextClosedEvent> {
+
     @Autowired
     private ThreadPoolFactory threadPoolFactory;
 

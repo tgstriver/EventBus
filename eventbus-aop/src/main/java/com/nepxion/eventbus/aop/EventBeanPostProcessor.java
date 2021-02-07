@@ -1,14 +1,5 @@
 package com.nepxion.eventbus.aop;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -17,6 +8,7 @@ import com.nepxion.eventbus.annotation.EventBus;
 import com.nepxion.eventbus.core.EventControllerFactory;
 
 public class EventBeanPostProcessor implements BeanPostProcessor {
+
     @Autowired
     private EventControllerFactory eventControllerFactory;
 

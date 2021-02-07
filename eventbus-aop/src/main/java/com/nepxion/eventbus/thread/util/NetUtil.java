@@ -1,13 +1,7 @@
 package com.nepxion.eventbus.thread.util;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -19,10 +13,8 @@ import java.util.Enumeration;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class NetUtil {
+
     private static final Logger LOG = LoggerFactory.getLogger(NetUtil.class);
 
     public static final String LOCALHOST = "localhost";
@@ -122,19 +114,18 @@ public class NetUtil {
         }
 
         String name = address.getHostAddress();
-
         return (name != null && !ANYHOST_IP.equals(name) && !LOCALHOST_IP.equals(name) && IP_PATTERN.matcher(name).matches());
     }
 
     public static String getLocalHost() {
         InetAddress address = getLocalAddress();
-
         return address == null ? LOCALHOST_IP : address.getHostAddress();
     }
 
     /**
-     * Find first valid IP from local network card
-     * @return first valid local IP
+     * 从本地网卡找到第一个有效的IP
+     *
+     * @return
      */
     public static InetAddress getLocalAddress() {
         if (LOCAL_ADDRESS != null) {
@@ -154,9 +145,10 @@ public class NetUtil {
             if (isValidAddress(localAddress)) {
                 return localAddress;
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOG.warn("Get local address0 failed", e);
         }
+
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             if (interfaces != null) {
@@ -171,17 +163,17 @@ public class NetUtil {
                                     if (isValidAddress(address)) {
                                         return address;
                                     }
-                                } catch (Throwable e) {
+                                } catch (Exception e) {
                                     LOG.warn("Get local address0 failed", e);
                                 }
                             }
                         }
-                    } catch (Throwable e) {
+                    } catch (Exception e) {
                         LOG.warn("Get local address0 failed", e);
                     }
                 }
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             LOG.warn("Get local address0 failed", e);
         }
 

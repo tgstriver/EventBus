@@ -1,22 +1,17 @@
 package com.nepxion.eventbus.thread.entity;
 
 /**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
+ * 线程池中队列类型
  */
-
 public enum ThreadQueueType {
+
     LINKED_BLOCKING_QUEUE("LinkedBlockingQueue"),
     ARRAY_BLOCKING_QUEUE("ArrayBlockingQueue"),
     SYNCHRONOUS_QUEUE("SynchronousQueue");
 
-    private String value;
+    private final String value;
 
-    private ThreadQueueType(String value) {
+    ThreadQueueType(String value) {
         this.value = value;
     }
 

@@ -1,14 +1,5 @@
 package com.nepxion.eventbus.configuration;
 
-/**
- * <p>Title: Nepxion Permission</p>
- * <p>Description: Nepxion Permission</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,23 +20,15 @@ import com.taobao.text.Color;
 
 @Configuration
 public class EventConfiguration {
+
     static {
-        /*String bannerShown = System.getProperty(BannerConstant.BANNER_SHOWN, "true");
-        if (Boolean.valueOf(bannerShown)) {
-            System.out.println("");
-            System.out.println("╔═══╗        ╔╗╔══╗");
-            System.out.println("║╔══╝       ╔╝╚╣╔╗║");
-            System.out.println("║╚══╦╗╔╦══╦═╬╗╔╣╚╝╚╦╗╔╦══╗");
-            System.out.println("║╔══╣╚╝║║═╣╔╗╣║║╔═╗║║║║══╣");
-            System.out.println("║╚══╬╗╔╣║═╣║║║╚╣╚═╝║╚╝╠══║");
-            System.out.println("╚═══╝╚╝╚══╩╝╚╩═╩═══╩══╩══╝");
-            System.out.println("Nepxion EventBus  v" + EventConstant.EVENTBUS_VERSION);
-            System.out.println("");
-        }*/
+        LogoBanner logoBanner = new LogoBanner(EventConfiguration.class, "/com/nepxion/eventbus/resource/logo.txt",
+                "Welcome to Nepxion", 8, 5,
+                new Color[]{Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green}, true);
 
-        LogoBanner logoBanner = new LogoBanner(EventConfiguration.class, "/com/nepxion/eventbus/resource/logo.txt", "Welcome to Nepxion", 8, 5, new Color[] { Color.red, Color.green, Color.cyan, Color.blue, Color.yellow, Color.magenta, Color.red, Color.green }, true);
-
-        NepxionBanner.show(logoBanner, new Description(BannerConstant.VERSION + ":", EventConstant.EVENTBUS_VERSION, 0, 1), new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/EventBus", 0, 1));
+        NepxionBanner.show(logoBanner,
+                new Description(BannerConstant.VERSION + ":", EventConstant.EVENTBUS_VERSION, 0, 1),
+                new Description(BannerConstant.GITHUB + ":", BannerConstant.NEPXION_GITHUB + "/EventBus", 0, 1));
     }
 
     @Value("${" + ThreadConstant.THREAD_POOL_MULTI_MODE + ":false}")

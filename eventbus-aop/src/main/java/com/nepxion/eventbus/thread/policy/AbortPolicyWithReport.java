@@ -1,24 +1,18 @@
 package com.nepxion.eventbus.thread.policy;
 
-/**
- * <p>Title: Nepxion EventBus</p>
- * <p>Description: Nepxion EventBus AOP</p>
- * <p>Copyright: Copyright (c) 2017-2050</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @version 1.0
- */
-
-import java.util.concurrent.ThreadPoolExecutor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// 任务饱和时, 抛弃任务，抛出异常
+import java.util.concurrent.ThreadPoolExecutor;
+
+/**
+ * 任务饱和时, 抛弃任务，抛出异常
+ */
 public class AbortPolicyWithReport extends ThreadPoolExecutor.AbortPolicy {
+
     private static final Logger LOG = LoggerFactory.getLogger(AbortPolicyWithReport.class);
 
-    private String threadName;
+    private final String threadName;
 
     public AbortPolicyWithReport() {
         this(null);
